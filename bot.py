@@ -2,7 +2,7 @@ import os
 import telebot
 from google import genai
 
-# Initialisation de la clé Gemini
+# Initialisation du client GenAI
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 # Token Telegram
@@ -12,7 +12,7 @@ PROMPT_BARISTA = """Tu es un expert Barista spécialisé en espresso haute extra
 Analyse les paramètres d'extraction donnés par l'utilisateur (dose, rendement, temps, goût) 
 et donne des conseils précis sur la mouture, la température ou la pression."""
 
-# Dictionnaire pour maintenir une session de chat par utilisateur Telegram
+# Dictionnaire pour maintenir une session de chat par utilisateur
 user_chats = {}
 
 @bot.message_handler(func=lambda message: True)
@@ -20,14 +20,14 @@ def handle_message(message):
     user_id = message.from_user.id
     
     try:
-        # Si l'utilisateur n'a pas encore de session chat, on la crée avec le prompt système
+        # Création du fil de chat s'il n'existe pas encore pour cet utilisateur
         if user_id not in user_chats:
             user_chats[user_id] = client.chats.create(
-                model='gemini-2.5-flash',
+                model='gemini-3.6-flash',
                 config={'system_instruction': PROMPT_BARISTA}
             )
         
-        # Envoi du message dans le fil de discussion
+        # Envoi du message dans la conversation
         chat = user_chats[user_id]
         response = chat.send_message(message.text)
         
