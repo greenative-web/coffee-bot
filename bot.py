@@ -15,9 +15,9 @@ et donne des conseils précis sur la mouture, la température ou la pression."""
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
     try:
-        # Utilisation du modèle gemini-2.5-flash
+        # Modèle mis à jour vers gemini-3.6-flash
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.6-flash',
             contents=f"{PROMPT_BARISTA}\n\nUtilisateur: {message.text}"
         )
         bot.reply_to(message, response.text)
