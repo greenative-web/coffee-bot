@@ -2,7 +2,7 @@ import os
 import telebot
 from google import genai
 
-# Configuration du nouveau SDK Google GenAI
+# Configuration du SDK Google GenAI
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 # Configuration du Bot Telegram
@@ -15,6 +15,7 @@ et donne des conseils précis sur la mouture, la température ou la pression."""
 @bot.message_handler(func=lambda message: True)
 def handle_message(message):
     try:
+        # Utilisation du modèle gemini-2.5-flash
         response = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=f"{PROMPT_BARISTA}\n\nUtilisateur: {message.text}"
